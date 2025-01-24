@@ -94,6 +94,17 @@
 					</excludes>
 				</configuration>
 			</plugin>
+			<!--To create a Google Jib image and deploy in Docker container-->
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>3.4.2</version>
+				<configuration>
+					<to>
+						<image>somshubhraroy/${project.artifactId}:v2</image>
+					</to>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 

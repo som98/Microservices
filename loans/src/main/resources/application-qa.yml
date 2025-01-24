@@ -1,0 +1,16 @@
+spring:
+  config:
+    activate:
+      on-profile: "qa"
+
+build:
+  version: "2.0"
+
+loans:
+  message: "Welcome to SomshubhraRoy Loans related QA APIs "
+  contactDetails:
+    name: "Somshubhra Roy - Developer - QA"
+    email: "somshubhraroy98@gmail.com"
+  onCallSupport:
+    - (666) 265-3765
+    - (666) 734-8371

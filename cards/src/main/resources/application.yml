@@ -18,3 +18,22 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+  config:
+    import:
+      - "application-qa.yml"
+      - "application-prod.yml"
+  profiles:
+    active:
+      - "qa"
+
+build:
+  version: "1.0"
+
+cards:
+  message: "Welcome to SomshubhraRoy Cards related local APIs "
+  contactDetails:
+    name: "Somshubhra Roy - Developer - LOCAL"
+    email: "somshubhraroy98@gmail.com"
+  onCallSupport:
+    - (555) 555-1234
+    - (555) 523-1345
