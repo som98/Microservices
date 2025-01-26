@@ -19,16 +19,6 @@ spring:
       ddl-auto: update
     show-sql: true
   profiles:
-    active: "qa"
-
-build:
-  version: "1.0"
-
-cards:
-  message: "Welcome to SomshubhraRoy Cards related local APIs "
-  contactDetails:
-    name: "Somshubhra Roy - Developer - LOCAL"
-    email: "somshubhraroy98@gmail.com"
-  onCallSupport:
-    - (555) 555-1234
-    - (555) 523-1345
+    active: "prod"
+  config:
+    import: "optional:configserver:http://localhost:8071/"
