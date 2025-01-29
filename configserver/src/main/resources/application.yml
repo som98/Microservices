@@ -1,3 +1,6 @@
+server:
+  port: 8071
+
 spring:
   application:
     name: "configserver"
@@ -17,5 +20,18 @@ spring:
           clone-on-start: true
           force-pull: true
 
-server:
-  port: 8071
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+  health:
+    readinessstate:
+      enabled: true
+    livenessstate:
+      enabled: true
+  endpoint:
+    health:
+      probes:
+        enabled: true
