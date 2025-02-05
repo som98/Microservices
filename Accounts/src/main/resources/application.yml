@@ -3,32 +3,27 @@ server:
 
 spring:
   application:
-    name: Accounts
+    name: accounts
   datasource:
-    url: jdbc:h2:mem:testdb1
-    driverClassName: org.h2.Driver
-    username: root1
-    password: pass1
-  h2:
-    console:
-      enabled: true
-      path: /h2-db1
+    url: jdbc:mysql://localhost:3306/accountsLocalDB
+    username: root
+    password: root
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-    hibernate:
-      ddl-auto: update
     show-sql: true
+  sql:
+    init:
+      mode: always
   profiles:
     active: "prod"
   config:
     import: "optional:configserver:http://localhost:8071/"
 
-#Docker command for RabbitMQ -   docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:4.0-management
-  rabbitmq:
-    host: "localhost"
-    port: 5672
-    username: guest
-    password: guest
+  #Docker command for RabbitMQ -   docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:4.0-management
+  #rabbitmq:
+  #  host: "localhost"
+  #  port: 5672
+  #  username: guest
+  #  password: guest
 
 management:
   endpoints:
