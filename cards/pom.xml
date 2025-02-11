@@ -130,7 +130,7 @@
 				<version>3.4.2</version>
 				<configuration>
 					<to>
-						<image>somshubhraroy/${project.artifactId}:v3</image>
+						<image>somshubhraroy/${project.artifactId}:v4</image>
 					</to>
 				</configuration>
 			</plugin>
