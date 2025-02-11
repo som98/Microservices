@@ -74,7 +74,7 @@ public class CustomerCardsController {
                         ResponseConstants.STATUS_201, ResponseConstants.MESSAGE_201));
     }
 
-    /// /////////////////////////////////////////////////////////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Operation(
             summary = "Fetch Card Details REST API",
@@ -96,7 +96,7 @@ public class CustomerCardsController {
     @GetMapping("/fetchCardDetailsByMobileNumber")
     public ResponseEntity<CardsDto> fetchCardDetailsByMobileNumber(
             @RequestParam @Pattern(regexp = "^\\d{10}$", message = "Mobile number must be 10 digits")
-            String mobileNumber) {
+            final String mobileNumber) {
         CardsDto cardsDto = customerCardsService.fetchCardDetailsByMobileNumber(mobileNumber);
         return ResponseEntity
                 .status(HttpStatus.OK).body(cardsDto);
