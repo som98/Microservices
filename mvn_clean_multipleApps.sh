@@ -7,6 +7,7 @@ PROJECTS=(
     "C:\Users\SOMSHUBHRA ROY\Self Projects\Microservices\loans"
     "C:\Users\SOMSHUBHRA ROY\Self Projects\Microservices\configserver"
     "C:\Users\SOMSHUBHRA ROY\Self Projects\Microservices\eurekaserver"
+    "C:\Users\SOMSHUBHRA ROY\Self Projects\Microservices\gatewayserver"
 )
 
 # Loop through each project directory and run mvn clean
