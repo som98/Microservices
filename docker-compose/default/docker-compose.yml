@@ -30,7 +30,7 @@ services:
       service: microservice-db-config
 
   configserver:
-    image: "somshubhraroy/configserver:v4"
+    image: "somshubhraroy/configserver:v5"
     container_name: configserver-ms
     ports:
       - "8071:8071"
@@ -45,7 +45,7 @@ services:
       service: microservice-configserver-config
 
   eurekaserver:
-    image: "somshubhraroy/eurekaserver:v4"
+    image: "somshubhraroy/eurekaserver:v5"
     container_name: eurekaserver-ms
     ports:
       - "8070:8070"
@@ -65,10 +65,16 @@ services:
       service: microservice-eureka-config
 
   accounts:
-    image: "somshubhraroy/accounts:v4"
+    image: "somshubhraroy/accounts:v5"
     container_name: accounts-ms
     ports:
       - "8080:8080"
+    healthcheck:
+      test: "curl --fail --silent localhost:8080/actuator/health/readiness | grep UP || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
     depends_on:
       accountsDB:
         condition: service_healthy
@@ -84,10 +90,16 @@ services:
       service: microservice-base-config
 
   loans:
-    image: "somshubhraroy/loans:v4"
+    image: "somshubhraroy/loans:v5"
     container_name: loans-ms
     ports:
       - "8090:8090"
+    healthcheck:
+      test: "curl --fail --silent localhost:8090/actuator/health/readiness | grep UP || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
     depends_on:
       loansDB:
         condition: service_healthy
@@ -103,10 +115,16 @@ services:
       service: microservice-base-config
 
   cards:
-    image: "somshubhraroy/cards:v4"
+    image: "somshubhraroy/cards:v5"
     container_name: cards-ms
     ports:
       - "9000:9000"
+    healthcheck:
+      test: "curl --fail --silent localhost:9000/actuator/health/readiness | grep UP || exit 1"
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
     depends_on:
       cardsDB:
         condition: service_healthy
@@ -120,6 +138,28 @@ services:
     extends:
       file: common-config.yml
       service: microservice-base-config
+
+  gatewayserver:
+    image: "somshubhraroy/gatewayserver:v5"
+    container_name: gatewayserver-ms
+    ports:
+      - "8072:8072"
+    depends_on:
+      configserver:
+        condition: service_healthy
+      eurekaserver:
+        condition: service_healthy
+      accounts:
+        condition: service_healthy
+      loans:
+        condition: service_healthy
+      cards:
+        condition: service_healthy
+    environment:
+      SPRING_APPLICATION_NAME: "gatewayserver"
+    extends:
+      file: common-config.yml
+      service: microservice-gatewayserver-config
 
 networks:
   somshubhra-roy:
