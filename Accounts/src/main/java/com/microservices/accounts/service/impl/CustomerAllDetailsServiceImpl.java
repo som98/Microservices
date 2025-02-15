@@ -35,7 +35,7 @@ public class CustomerAllDetailsServiceImpl implements CustomerAllDetailsService 
      * @return a CustomerAllDetailsDto object containing the customer's all details
      */
     @Override
-    public CustomerAllDetailsDto fetchCustomerAllDetails(String mobileNumber) {
+    public CustomerAllDetailsDto fetchCustomerAllDetails(String mobileNumber, String correlationId) {
 
         Customer customer = customerRepository.findByMobileNumber(mobileNumber)
                 .orElseThrow(
@@ -50,8 +50,8 @@ public class CustomerAllDetailsServiceImpl implements CustomerAllDetailsService 
         CustomerAllDetailsDto customerAllDetailsDto = CustomerAllDetailsMapper.customerToCustomerAllDetailsDto(customer);
         customerAllDetailsDto.setAccountsDto(AccountsMapper.accountsToAccountsDto(accounts));
 
-        ResponseEntity<LoansDto> loansDtoResponseEntity = loansFeignClient.fetchLoanDetails(mobileNumber);
-        ResponseEntity<CardsDto> cardsDtoResponseEntity = cardsFeignClient.fetchCardDetailsByMobileNumber(mobileNumber);
+        ResponseEntity<LoansDto> loansDtoResponseEntity = loansFeignClient.fetchLoanDetails(correlationId, mobileNumber);
+        ResponseEntity<CardsDto> cardsDtoResponseEntity = cardsFeignClient.fetchCardDetailsByMobileNumber(correlationId, mobileNumber);
 
         customerAllDetailsDto.setLoansDto(loansDtoResponseEntity.getBody());
         customerAllDetailsDto.setCardsDto(cardsDtoResponseEntity.getBody());

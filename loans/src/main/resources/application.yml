@@ -53,3 +53,10 @@ info:
     name: "loans"
     description: "Som Bank Loans Application"
     version: "1.0.0"
+
+
+logging:
+  level:
+    com:
+      microservices:
+        loans: DEBUG

@@ -53,3 +53,10 @@ info:
     name: "accounts"
     description: "Som Bank Accounts Application"
     version: "1.0.0"
+
+
+logging:
+  level:
+    com:
+      microservices:
+        accounts: DEBUG

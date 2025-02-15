@@ -55,11 +55,14 @@ public class CustomerAllDetailsController {
     )
     @GetMapping("/fetchAllDetails")
     public ResponseEntity<CustomerAllDetailsDto> fetchCustomerAllDetails(
+            @RequestHeader ("sombank-correlation-id") String correlationId,
             @RequestParam @Pattern(regexp = "^\\d{10}$", message = "Mobile Number should be of 10 digits")
             String mobileNumber) {
 
+        log.debug("SomBank-correlation-id found : {}", correlationId);
+
         log.info("Fetching all the details for mobile number: {}", mobileNumber);
-        CustomerAllDetailsDto customerAllDetailsDto = customerAllDetailsService.fetchCustomerAllDetails(mobileNumber);
+        CustomerAllDetailsDto customerAllDetailsDto = customerAllDetailsService.fetchCustomerAllDetails(mobileNumber, correlationId);
 
         return ResponseEntity
                 .status(HttpStatus.OK)

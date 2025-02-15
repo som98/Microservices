@@ -98,8 +98,11 @@ public class CustomerLoansController {
     )
     @GetMapping("/fetchLoanDetailsByMobileNumber/{mobileNumber}")
     public ResponseEntity<LoansDto> fetchLoanDetails(
+            @RequestHeader ("sombank-correlation-id") String correlationId,
             @PathVariable @Pattern(regexp="^\\d{10}$",message = "Mobile number must be of 10 digits")
             final String mobileNumber) {
+
+        log.debug("SomBank-correlation-id found : {}", correlationId);
 
         LoansDto loansDto = customerLoansService.fetchLoanDetailsByMobileNumber(mobileNumber);
         return ResponseEntity

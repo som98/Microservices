@@ -95,8 +95,12 @@ public class CustomerCardsController {
     )
     @GetMapping("/fetchCardDetailsByMobileNumber")
     public ResponseEntity<CardsDto> fetchCardDetailsByMobileNumber(
+            @RequestHeader ("sombank-correlation-id") String correlationId,
             @RequestParam @Pattern(regexp = "^\\d{10}$", message = "Mobile number must be 10 digits")
             final String mobileNumber) {
+
+        log.debug("SomBank-correlation-id found : {}", correlationId);
+
         CardsDto cardsDto = customerCardsService.fetchCardDetailsByMobileNumber(mobileNumber);
         return ResponseEntity
                 .status(HttpStatus.OK).body(cardsDto);

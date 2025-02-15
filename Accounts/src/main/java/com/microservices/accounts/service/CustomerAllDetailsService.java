@@ -10,6 +10,6 @@ public interface CustomerAllDetailsService {
      * @param mobileNumber the mobile number of the customer
      * @return a CustomerAllDetailsDto object containing the customer's all details
      */
-    CustomerAllDetailsDto fetchCustomerAllDetails(String mobileNumber);
+    CustomerAllDetailsDto fetchCustomerAllDetails(String mobileNumber, String correlationId);
 
 }
