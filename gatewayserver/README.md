@@ -26,4 +26,10 @@
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-### https://docs.spring.io/spring-cloud-gateway/reference/
+#### https://docs.spring.io/spring-cloud-gateway/reference/
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+### Official documentation link for Implementing Circuit Breaker ->
+#### https://resilience4j.readme.io/docs/circuitbreaker
+#### https://docs.spring.io/spring-cloud-circuitbreaker/reference/

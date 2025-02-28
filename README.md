@@ -15,16 +15,25 @@
 ###### docker image push docker.io/somshubhraroy/accounts:v4
 
 
-
+--------------------------------------------------------------------------------------------------------------------------------------
 
 
 ## TROUBLESHOOTING TECHNIQUES ->
 
-#### [ERROR] Failed to execute goal com.google.cloud.tools:jib-maven-plugin:3.4.2:dockerBuild (default-cli) on project cards: 
-#### Build to Docker daemon failed, perhaps you should make sure your credentials for 
-#### 'registry-1.docker.io/library/eclipse-temurin' are set up correctly. 
-#### See https://github.com/GoogleContainerTools/jib/blob/master/docs/faq.md#what-should-i-do-when-the-registry-responds-with-unauthorized
-#### for help: Unauthorized for registry-1.docker.io/library/eclipse-temurin: 401 Unauthorized
-
-#### Execute the below command in terminal->
+#### ERROR Example 1 ->  
+Failed to execute goal com.google.cloud.tools:jib-maven-plugin:3.4.2:dockerBuild (default-cli) on project cards:
+Build to Docker daemon failed, perhaps you should make sure your credentials for 
+'registry-1.docker.io/library/eclipse-temurin' are set up correctly.
+See https://github.com/GoogleContainerTools/jib/blob/master/docs/faq.md#what-should-i-do-when-the-registry-responds-with-unauthorized
+for help: Unauthorized for registry-1.docker.io/library/eclipse-temurin: 401 Unauthorized.
+***Execute the below command in terminal->***
 ###### docker login registry-1.docker.io
+
+--------------------------------------------------------------------------------------------------------------------------------------
+
+### How to check the PID of a Port and how to kill it ->
+**netstat -ano | findstr :<Port No>**    #To check the PID  of a Port  
+**taskkill /PID <PID> /F**               #To kill the process
+
+
+--------------------------------------------------------------------------------------------------------------------------------------

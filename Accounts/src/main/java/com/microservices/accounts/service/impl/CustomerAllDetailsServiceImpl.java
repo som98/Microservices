@@ -53,8 +53,13 @@ public class CustomerAllDetailsServiceImpl implements CustomerAllDetailsService 
         ResponseEntity<LoansDto> loansDtoResponseEntity = loansFeignClient.fetchLoanDetails(correlationId, mobileNumber);
         ResponseEntity<CardsDto> cardsDtoResponseEntity = cardsFeignClient.fetchCardDetailsByMobileNumber(correlationId, mobileNumber);
 
-        customerAllDetailsDto.setLoansDto(loansDtoResponseEntity.getBody());
-        customerAllDetailsDto.setCardsDto(cardsDtoResponseEntity.getBody());
+        if (loansDtoResponseEntity != null) {
+            customerAllDetailsDto.setLoansDto(loansDtoResponseEntity.getBody());
+        }
+
+        if (cardsDtoResponseEntity != null) {
+            customerAllDetailsDto.setCardsDto(cardsDtoResponseEntity.getBody());
+        }
 
         return customerAllDetailsDto;
     }
