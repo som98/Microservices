@@ -32,8 +32,8 @@ for help: Unauthorized for registry-1.docker.io/library/eclipse-temurin: 401 Una
 --------------------------------------------------------------------------------------------------------------------------------------
 
 ### How to check the PID of a Port and how to kill it ->
-**netstat -ano | findstr :<Port No>**    #To check the PID  of a Port  
-**taskkill /PID <PID> /F**               #To kill the process
+**netstat -ano | findstr :< Port No >**    #To check the PID  of a Port  
+**taskkill /PID < PID > /F**               #To kill the process
 
 
 --------------------------------------------------------------------------------------------------------------------------------------
