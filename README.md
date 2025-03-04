@@ -10,6 +10,10 @@
 #### Example ->
 ###### docker run -dit --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:4.0-management
 
+### Docker Run command for Redis ->
+#### Example ->
+###### docker run -p 6379:6379 --name redis -d redis:latest
+
 ### Docker command for pushing images into Docker Hub ->
 #### Example ->
 ###### docker image push docker.io/somshubhraroy/accounts:v4

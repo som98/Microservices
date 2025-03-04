@@ -20,7 +20,6 @@
 - It logs the correlation ID from the request headers and adds it to the outbound response headers.
 
 
-
 #### Overall, these filters help manage correlation IDs for tracing purposes in a Spring Cloud Gateway application.
 #### They ensure that requests are associated with a unique identifier, making it easier to track and analyze them across different services or components
 
@@ -33,3 +32,13 @@
 ### Official documentation link for Implementing Circuit Breaker ->
 #### https://resilience4j.readme.io/docs/circuitbreaker
 #### https://docs.spring.io/spring-cloud-circuitbreaker/reference/
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------
+### Link to download Apache Benchmark ->
+#### https://www.apachelounge.com/download/  
+
+### Command for API load testing and performance benchmarking using Apache Benchmark -> 
+#### ab -n 10 -c 2 -v 3 < url >
+_url example -  http://localhost:8072/sombank/cards/cards/contactInfo_
+
+--------------------------------------------------------------------------------------------------------------------------------------------------

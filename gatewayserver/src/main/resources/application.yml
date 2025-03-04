@@ -12,7 +12,12 @@ spring:
       httpclient:
         connect-timeout: 1000
         response-timeout: 2s
-
+  data:
+    redis:
+      connect-timeout: 2s       # Connection Timeout
+      host: localhost
+      port: 6379
+      timeout: 1s               # Read/Write Timeout
 
 management:
   endpoints:
