@@ -6,6 +6,7 @@ import com.microservices.accounts.dto.CustomerDto;
 import com.microservices.accounts.dto.ErrorResponseDto;
 import com.microservices.accounts.dto.ResponseDto;
 import com.microservices.accounts.service.CustomerAccountsService;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.github.resilience4j.retry.annotation.Retry;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -237,7 +238,7 @@ public class CustomerAccountsController {
         log.debug("getBuildInfoFallback() method Invoked");
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body("Fallback Java Build");
+                .body("Fallback Build-Info");
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -259,11 +260,19 @@ public class CustomerAccountsController {
                     )
             }
     )
+    @RateLimiter(name = "getJavaVersion", fallbackMethod = "getJavaVersionFallback")
     @GetMapping("/javaVersion")
     public ResponseEntity<String> getJavaVersion() {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(environment.getProperty("JAVA_HOME"));
+    }
+
+    public ResponseEntity<String> getJavaVersionFallback(Throwable throwable) {
+        log.debug("getJavaVersionFallback() method Invoked");
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body("Fallback Java-Version");
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////

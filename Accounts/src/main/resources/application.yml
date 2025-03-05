@@ -84,7 +84,7 @@ resilience4j:
   timelimiter:
     configs:
       default:
-        timeout-duration: 5000
+        timeout-duration: 7000
   retry:
     configs:
       default:
@@ -96,3 +96,9 @@ resilience4j:
           - java.lang.NullPointerException
         retry-exceptions:
           - java.util.concurrent.TimeoutException   #If retry-exceptions implemented then all ignore-exceptions will be ignored
+  ratelimiter:
+    configs:
+      default:                                      #Every 5 seconds - 5 Requests - 0 Timeout
+        limit-for-period: 5
+        limit-refresh-period: 5000
+        timeout-duration: 0
