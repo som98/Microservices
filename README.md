@@ -41,3 +41,5 @@ for help: Unauthorized for registry-1.docker.io/library/eclipse-temurin: 401 Una
 
 
 --------------------------------------------------------------------------------------------------------------------------------------
+
+283 lecture videos as of 07/03/2025

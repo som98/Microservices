@@ -138,7 +138,7 @@
 				<version>3.4.2</version>
 				<configuration>
 					<to>
-						<image>somshubhraroy/${project.artifactId}:v6</image>
+						<image>somshubhraroy/${project.artifactId}:v7</image>
 					</to>
 				</configuration>
 			</plugin>
