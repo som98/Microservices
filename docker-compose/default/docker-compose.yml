@@ -42,7 +42,7 @@ services:
       service: network-deploy-service
 
   configserver:
-    image: "somshubhraroy/configserver:v7"
+    image: "somshubhraroy/configserver:v8"
     container_name: configserver-ms
     ports:
       - "8071:8071"
@@ -57,7 +57,7 @@ services:
       service: microservice-configserver-config
 
   eurekaserver:
-    image: "somshubhraroy/eurekaserver:v7"
+    image: "somshubhraroy/eurekaserver:v8"
     container_name: eurekaserver-ms
     ports:
       - "8070:8070"
@@ -77,7 +77,7 @@ services:
       service: microservice-eureka-config
 
   accounts:
-    image: "somshubhraroy/accounts:v7"
+    image: "somshubhraroy/accounts:v8"
     container_name: accounts-ms
     ports:
       - "8080:8080"
@@ -102,7 +102,7 @@ services:
       service: microservice-base-config
 
   loans:
-    image: "somshubhraroy/loans:v7"
+    image: "somshubhraroy/loans:v8"
     container_name: loans-ms
     ports:
       - "8090:8090"
@@ -127,7 +127,7 @@ services:
       service: microservice-base-config
 
   cards:
-    image: "somshubhraroy/cards:v7"
+    image: "somshubhraroy/cards:v8"
     container_name: cards-ms
     ports:
       - "9000:9000"
@@ -152,7 +152,7 @@ services:
       service: microservice-base-config
 
   gatewayserver:
-    image: "somshubhraroy/gatewayserver:v7"
+    image: "somshubhraroy/gatewayserver:v8"
     container_name: gatewayserver-ms
     ports:
       - "8072:8072"
@@ -260,6 +260,17 @@ services:
       file: common-config.yml
       service: network-deploy-service
 
+  prometheus:
+    image: prom/prometheus:v3.1.0
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ../observability/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+    extends:
+      file: common-config.yml
+      service: network-deploy-service
+
   grafana:
     image: grafana/grafana:latest
     environment:
@@ -272,22 +283,11 @@ services:
       - sh
       - -euc
       - |
-        mkdir -p /etc/grafana/provisioning/datasources
-        cat <<EOF > /etc/grafana/provisioning/datasources/ds.yaml
-        apiVersion: 1
-        datasources:
-          - name: Loki
-            type: loki
-            access: proxy
-            url: http://gateway:3100
-            jsonData:
-              httpHeaderName1: "X-Scope-OrgID"
-            secureJsonData:
-              httpHeaderValue1: "tenant1"
-        EOF
         /run.sh
     ports:
       - "3000:3000"
+    volumes:
+      - ../observability/grafana/datasource.yml:/etc/grafana/provisioning/datasources/datasource.yml
     healthcheck:
       test: [ "CMD-SHELL", "wget --no-verbose --tries=1 --spider http://localhost:3000/api/health || exit 1" ]
       interval: 10s

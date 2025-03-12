@@ -17,3 +17,15 @@
 - **Grafana:** which provides visualization of the log lines captured within Loki.
 
 -------------------------------------------------------------------------------------------------------------------------------
+
+
+Link to check prometheus metrics -
+http://localhost:9090/
+
+Link to check Grafana tool -
+http://localhost:3000/
+
+Default credentials for http://localhost:3000/dashboards -
+User: admin
+Password: admin
+

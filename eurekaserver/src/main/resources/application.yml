@@ -10,7 +10,6 @@ management:
     web:
       exposure:
         include: "*"
-
   health:
     readinessstate:
       enabled: true
@@ -20,3 +19,6 @@ management:
     health:
       probes:
         enabled: true
+  metrics:
+    tags:
+      application: ${spring.application.name}
