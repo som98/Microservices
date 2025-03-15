@@ -102,9 +102,12 @@ public class CustomerLoansController {
             @PathVariable @Pattern(regexp="^\\d{10}$",message = "Mobile number must be of 10 digits")
             final String mobileNumber) {
 
+        log.debug("fetchLoanDetails method start");
         log.debug("SomBank-correlation-id found : {}", correlationId);
 
         LoansDto loansDto = customerLoansService.fetchLoanDetailsByMobileNumber(mobileNumber);
+
+        log.debug("fetchLoanDetails method end");
         return ResponseEntity
                 .status(HttpStatus.OK).body(loansDto);
     }

@@ -59,11 +59,13 @@ public class CustomerAllDetailsController {
             @RequestParam @Pattern(regexp = "^\\d{10}$", message = "Mobile Number should be of 10 digits")
             String mobileNumber) {
 
+        log.debug("fetchCustomerAllDetails method start");
         log.debug("SomBank-correlation-id found : {}", correlationId);
 
         log.info("Fetching all the details for mobile number: {}", mobileNumber);
         CustomerAllDetailsDto customerAllDetailsDto = customerAllDetailsService.fetchCustomerAllDetails(mobileNumber, correlationId);
 
+        log.debug("fetchCustomerAllDetails method end");
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(customerAllDetailsDto);
