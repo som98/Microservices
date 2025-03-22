@@ -14,6 +14,12 @@
 #### Example ->
 ###### docker run -p 6379:6379 --name redis -d redis:latest
 
+### Docker Run command for Keycloak ->
+#### Example ->
+###### docker run -p 7080:8080 -d -e KC_BOOTSTRAP_ADMIN_USERNAME=admin -e KC_BOOTSTRAP_ADMIN_PASSWORD=admin quay.io/keycloak/keycloak:26.1.4 start-dev
+#### Website link - https://www.keycloak.org/getting-started/getting-started-docker
+#### Keycloak Admin Console - http://localhost:7080/admin
+
 ### Docker command for pushing images into Docker Hub ->
 #### Example ->
 ###### docker image push docker.io/somshubhraroy/accounts:v4
