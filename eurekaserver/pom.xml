@@ -10,9 +10,10 @@
 	</parent>
 	<groupId>com.microservices</groupId>
 	<artifactId>eurekaserver</artifactId>
+	<packaging>jar</packaging>
 	<version>0.0.1</version>
 	<name>eurekaserver</name>
-	<description>Service Discovery agent for the Bank microservices</description>
+	<description>Service Discovery agent for Bank Microservices</description>
 	<url/>
 	<licenses>
 		<license/>

@@ -11,8 +11,9 @@
 	<groupId>com.microservices</groupId>
 	<artifactId>configserver</artifactId>
 	<version>0.0.1</version>
+	<packaging>jar</packaging>
 	<name>configserver</name>
-	<description>Spring Cloud Config Server for microservices</description>
+	<description>Spring Cloud Config Server for Bank Microservices</description>
 	<url/>
 	<licenses>
 		<license/>
