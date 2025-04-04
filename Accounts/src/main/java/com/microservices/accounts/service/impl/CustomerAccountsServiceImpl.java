@@ -2,6 +2,7 @@ package com.microservices.accounts.service.impl;
 
 import com.microservices.accounts.constants.CustomerAccountConstants;
 import com.microservices.accounts.dto.AccountsDto;
+import com.microservices.accounts.dto.AccountsMsgDto;
 import com.microservices.accounts.dto.CustomerDto;
 import com.microservices.accounts.entity.Accounts;
 import com.microservices.accounts.entity.Customer;
@@ -14,6 +15,7 @@ import com.microservices.accounts.repository.CustomerRepository;
 import com.microservices.accounts.service.CustomerAccountsService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +30,7 @@ public class CustomerAccountsServiceImpl implements CustomerAccountsService {
 
     private AccountsRepository accountsRepository;
     private CustomerRepository customerRepository;
+    private StreamBridge streamBridge;
 
     /**
      * This method is used to create a new account for the given customer.
@@ -47,8 +50,20 @@ public class CustomerAccountsServiceImpl implements CustomerAccountsService {
 
         Customer customer = CustomerMapper.customerDtoToCustomer(customerDto);
 
-        Customer newCustomer = customerRepository.save(customer);
-        accountsRepository.save(createNewAccount(newCustomer));
+        Customer savedCustomer = customerRepository.save(customer);
+        Accounts savedAccount = accountsRepository.save(createNewAccount(savedCustomer));
+
+        sendCommunication(savedAccount, savedCustomer);
+    }
+
+    private void sendCommunication(Accounts account, Customer customer) {
+
+        AccountsMsgDto accountsMsgDto = new AccountsMsgDto(account.getAccountNumber(), customer.getName(),
+                customer.getEmail(), customer.getMobileNumber());
+
+        log.info("Sending Communication request for the details: {}", accountsMsgDto);
+        Boolean result = streamBridge.send("sendCommunication-out-0", accountsMsgDto);
+        log.info("Is the Communication request successfully triggered ? : {}", result);
     }
 
     private Accounts createNewAccount(Customer customer) {
@@ -145,6 +160,26 @@ public class CustomerAccountsServiceImpl implements CustomerAccountsService {
 
         return true;
 
+    }
+
+    /**
+     * Updates the Communication Status.
+     *
+     * @param accountNumber the account number of the customer
+     * @return true if the update was successful, false otherwise
+     */
+    @Override
+    public Boolean updateCommunicationStatus(Long accountNumber) {
+        boolean isUpdated = false;
+        if(accountNumber !=null) {
+            Accounts accounts = accountsRepository.findById(accountNumber).orElseThrow(
+                    () -> new ResourceNotFoundException("Account", "AccountNumber", accountNumber.toString())
+            );
+            accounts.setCommunicationStatus(true);
+            accountsRepository.save(accounts);
+            isUpdated = true;
+        }
+        return  isUpdated;
     }
 
 }

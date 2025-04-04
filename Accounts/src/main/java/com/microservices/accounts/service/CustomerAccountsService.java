@@ -35,4 +35,13 @@ public interface CustomerAccountsService {
      * @return true if the deletion was successful, false otherwise
      */
     Boolean deleteCustomerAccountByMobileNumber(String mobileNumber);
+
+
+    /**
+     * Updates the Communication Status.
+     *
+     * @param accountNumber the account number of the customer
+     * @return true if the update was successful, false otherwise
+     */
+    Boolean updateCommunicationStatus(Long accountNumber);
 }
