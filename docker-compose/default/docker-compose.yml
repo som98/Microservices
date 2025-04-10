@@ -29,6 +29,22 @@ services:
       file: common-config.yml
       service: microservice-db-config
 
+  rabbit:
+    image: rabbitmq:4.0-management
+    hostname: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: rabbitmq-diagnostics check_port_connectivity
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+    extends:
+      file: common-config.yml
+      service: network-deploy-service
+
   keycloak:
     image: quay.io/keycloak/keycloak:26.1.4
     container_name: keycloak
@@ -55,7 +71,7 @@ services:
       service: network-deploy-service
 
   configserver:
-    image: "somshubhraroy/configserver:v10"
+    image: "somshubhraroy/configserver:v11"
     container_name: configserver-ms
     ports:
       - "8071:8071"
@@ -72,7 +88,7 @@ services:
       OTEL_SERVICE_NAME: "configserver"
 
   eurekaserver:
-    image: "somshubhraroy/eurekaserver:v10"
+    image: "somshubhraroy/eurekaserver:v11"
     container_name: eurekaserver-ms
     ports:
       - "8070:8070"
@@ -93,7 +109,7 @@ services:
       service: microservice-eureka-config
 
   accounts:
-    image: "somshubhraroy/accounts:v10"
+    image: "somshubhraroy/accounts:v11"
     container_name: accounts-ms
     #ports:
     #  - "8080:8080"
@@ -110,16 +126,19 @@ services:
         condition: service_healthy
       eurekaserver:
         condition: service_healthy
+      rabbit:
+        condition: service_healthy
     environment:
       SPRING_APPLICATION_NAME: "accounts"
       SPRING_DATASOURCE_URL: "jdbc:mysql://accountsDB:3306/accountsDB"
       OTEL_SERVICE_NAME: "accounts"
+      SPRING_RABBITMQ_HOST: "rabbit"
     extends:
       file: common-config.yml
       service: microservice-base-config
 
   loans:
-    image: "somshubhraroy/loans:v10"
+    image: "somshubhraroy/loans:v11"
     container_name: loans-ms
     #ports:
     #  - "8090:8090"
@@ -145,7 +164,7 @@ services:
       service: microservice-base-config
 
   cards:
-    image: "somshubhraroy/cards:v10"
+    image: "somshubhraroy/cards:v11"
     container_name: cards-ms
     #ports:
     #  - "9000:9000"
@@ -170,8 +189,20 @@ services:
       file: common-config.yml
       service: microservice-base-config
 
+  message:
+    image: "somshubhraroy/message:v11"
+    container_name: message-ms
+    depends_on:
+      rabbit:
+        condition: service_healthy
+    environment:
+      SPRING_RABBITMQ_HOST: "rabbit"
+    extends:
+      file: common-config.yml
+      service: network-deploy-service
+
   gatewayserver:
-    image: "somshubhraroy/gatewayserver:v10"
+    image: "somshubhraroy/gatewayserver:v11"
     container_name: gatewayserver-ms
     ports:
       - "8072:8072"
