@@ -24,9 +24,12 @@
 #### Example ->
 ###### docker image push docker.io/somshubhraroy/accounts:v4
 
-
 --------------------------------------------------------------------------------------------------------------------------------------
-
+Adminer UI for MySQL ->  
+docker run -p 1000:8080 --link accountsDB:db -d adminer  
+docker run -p 2000:8080 --link cardsDB:db -d adminer  
+docker run -p 3000:8080 --link loans:db -d adminer
+--------------------------------------------------------------------------------------------------------------------------------------
 
 ## TROUBLESHOOTING TECHNIQUES ->
 
