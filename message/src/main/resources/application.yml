@@ -6,14 +6,29 @@ spring:
     name: message
   cloud:
     function:
-      definition: email|sms
+      definition: email|sms;cardNumber
     stream:
       bindings:
+        #RabbitMQ bindings↓
         emailsms-in-0:
           destination: send-communication
           group: ${spring.application.name}
+          binder: rabbit
         emailsms-out-0:
           destination: communication-sent
+          binder: rabbit
+        #Kafka bindings↓
+        cardNumber-in-0:
+          destination: fetch-cardDetailsFromCards
+          group: ${spring.application.name}
+          binder: kafka
+        cardNumber-out-0:
+          destination: send-cardNumberToCards
+          binder: kafka
+      kafka:
+        binder:
+          brokers:
+            - localhost:9092
   rabbitmq:
     host: localhost
     port: 5672

@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS `cards` (
     `total_limit` int NOT NULL,
     `amount_used` int NOT NULL,
     `available_amount` int NOT NULL,
+    `communication_status` BOOLEAN,
     `created_at` date NOT NULL,
     `created_by` varchar(20) NOT NULL,
     `updated_at` date DEFAULT NULL,

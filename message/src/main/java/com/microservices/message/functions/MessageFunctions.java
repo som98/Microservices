@@ -1,6 +1,7 @@
 package com.microservices.message.functions;
 
 import com.microservices.message.dto.AccountsMsgDto;
+import com.microservices.message.dto.CardsMsgDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,6 +25,14 @@ public class MessageFunctions {
         return accountsMsgDto -> {
             log.info("Sending sms with the details: {}", accountsMsgDto.toString());
             return accountsMsgDto.accountNumber();
+        };
+    }
+
+    @Bean
+    public Function<CardsMsgDto, String> cardNumber() {
+        return cardsMsgDto -> {
+            log.info("Sending Card Number with the details: {}", cardsMsgDto.toString());
+            return cardsMsgDto.cardNumber();
         };
     }
 

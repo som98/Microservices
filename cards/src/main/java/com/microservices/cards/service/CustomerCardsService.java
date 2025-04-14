@@ -30,4 +30,12 @@ public interface CustomerCardsService {
      * @return Boolean indicating if the delete of card details is successful or not
      */
     Boolean deleteCardDetailsByMobileNumber(String mobileNumber);
+
+    /**
+     * Updates the Communication Status.
+     *
+     * @param cardNumber the account number of the customer
+     * @return true if the update was successful, false otherwise
+     */
+    Boolean updateCommunicationStatus(String cardNumber);
 }

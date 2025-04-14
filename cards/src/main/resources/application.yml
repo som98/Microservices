@@ -17,6 +17,22 @@ spring:
     active: "prod"
   config:
     import: "optional:configserver:http://localhost:8071/"
+  cloud:
+    function:
+      definition: updateCommunication
+    stream:
+      bindings:
+        updateCommunication-in-0:
+          destination: send-cardNumberToCards
+          group: ${spring.application.name}
+          binder: kafka
+        sendCardDetails-out-0:
+          destination: fetch-cardDetailsFromCards
+          binder: kafka
+      kafka:
+        binder:
+          brokers:
+            - localhost:9092
 
   #Docker command for RabbitMQ -   docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:4.0-management
   #rabbitmq:

@@ -28,4 +28,6 @@ public class Cards extends BaseEntity{
     private Long amountUsed;
     @Column(name = "available_amount")
     private Long availableAmount;
+    @Column(name = "communication_status")
+    private Boolean communicationStatus;
 }

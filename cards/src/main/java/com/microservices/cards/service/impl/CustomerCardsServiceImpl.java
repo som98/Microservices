@@ -2,6 +2,7 @@ package com.microservices.cards.service.impl;
 
 import com.microservices.cards.constants.ResponseConstants;
 import com.microservices.cards.dto.CardsDto;
+import com.microservices.cards.dto.CardsMsgDto;
 import com.microservices.cards.entity.Cards;
 import com.microservices.cards.exception.CardAlreadyExistsException;
 import com.microservices.cards.exception.ResourceNotFoundException;
@@ -9,6 +10,8 @@ import com.microservices.cards.mapper.CardsMapper;
 import com.microservices.cards.repository.CardsRepository;
 import com.microservices.cards.service.CustomerCardsService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cloud.stream.function.StreamBridge;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -16,9 +19,11 @@ import java.util.Random;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class CustomerCardsServiceImpl implements CustomerCardsService {
 
     private CardsRepository cardsRepository;
+    private StreamBridge streamBridge;
 
     /**
      * @param mobileNumber - Mobile Number of the Customer
@@ -29,7 +34,19 @@ public class CustomerCardsServiceImpl implements CustomerCardsService {
         if(existingCards.isPresent()){
             throw new CardAlreadyExistsException("Card already registered with given mobileNumber "+mobileNumber);
         }
-        cardsRepository.save(createNewCard(mobileNumber));
+        Cards savedCard = cardsRepository.save(createNewCard(mobileNumber));
+
+        sendCardDetails(savedCard);
+    }
+
+    private void sendCardDetails(Cards savedCard) {
+
+        CardsMsgDto cardsMsgDto = new CardsMsgDto(savedCard.getCardNumber(),savedCard.getMobileNumber(),
+                savedCard.getAvailableAmount());
+
+        log.info("Sending Card Details for the card: {}", cardsMsgDto);
+        Boolean result = streamBridge.send("sendCardDetails-out-0", cardsMsgDto);
+        log.info("Is the Card Details communication request successfully triggered ? : {}", result);
     }
 
     /**
@@ -87,6 +104,26 @@ public class CustomerCardsServiceImpl implements CustomerCardsService {
         );
         cardsRepository.deleteById(cards.getCardId());
         return Boolean.TRUE;
+    }
+
+    /**
+     * Updates the Communication Status.
+     *
+     * @param cardNumber the account number of the customer
+     * @return true if the update was successful, false otherwise
+     */
+    @Override
+    public Boolean updateCommunicationStatus(String cardNumber) {
+        boolean isUpdated = false;
+        if(cardNumber !=null) {
+            Cards cards = cardsRepository.findByCardNumber(cardNumber).orElseThrow(
+                    () -> new ResourceNotFoundException("Cards", "CardNumber", cardNumber)
+            );
+            cards.setCommunicationStatus(true);
+            cardsRepository.save(cards);
+            isUpdated = true;
+        }
+        return  isUpdated;
     }
 
 }
