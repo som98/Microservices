@@ -70,6 +70,7 @@ public class CustomerLoansController {
             @RequestParam @Pattern(regexp="^\\d{10}$", message = "Mobile number must be 10 digits")
             final String mobileNumber) {
 
+        log.info("Creating a new loan for customer with mobile number: {}", mobileNumber);
         customerLoansService.createCustomerLoanByMobileNumber(mobileNumber);
         return ResponseEntity
                 .status(HttpStatus.CREATED)

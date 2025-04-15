@@ -29,6 +29,9 @@ Adminer UI for MySQL ->
 docker run -p 1000:8080 --link accountsDB:db -d adminer  
 docker run -p 2000:8080 --link cardsDB:db -d adminer  
 docker run -p 3000:8080 --link loans:db -d adminer
+
+when to run inside a container ->
+docker run -d --name adminerADB --network prod_somshubhra-roy -p 1000:8080 adminer
 --------------------------------------------------------------------------------------------------------------------------------------
 
 ## TROUBLESHOOTING TECHNIQUES ->

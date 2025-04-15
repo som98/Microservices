@@ -67,6 +67,8 @@ public class CustomerCardsController {
     public ResponseEntity<ResponseDto> createCustomerCardByMobileNumber(
             @RequestParam @Pattern(regexp = "^\\d{10}$", message = "Mobile number must be of 10 digits")
             String mobileNumber) {
+
+        log.info("Creating a new card for customer with mobile number: {}", mobileNumber);
         customerCardsService.createCustomerCardByMobileNumber(mobileNumber);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
