@@ -173,6 +173,7 @@ for help: Unauthorized for registry-1.docker.io/library/eclipse-temurin: 401 Una
 **How to check the PID of a Port and how to kill it -**  
 `netstat -ano | findstr :< Port No >`    #To get the PID  of a Port  
 `taskkill /PID < PID > /F`               #To kill the process
+
 --------------------------------------------------------------------------------------------------------------------------------------
 
 283 lecture videos as of 07/03/2025 and 17/04/2025
