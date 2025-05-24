@@ -1,9 +1,9 @@
 # <u>Microservices Project</u>
 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
-### <u>GitHub repository link for the projects</u> - 
-#### https://github.com/som98/Microservices
-#### https://github.com/som98/Microservices-Config
+## <u>GitHub repository link for the projects</u> - 
+### https://github.com/som98/Microservices
+### https://github.com/som98/Microservices-Config
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 ## <u>Configserver Microservice</u>
@@ -82,6 +82,84 @@
 
 ### To push images into Docker Hub ->
 `docker image push docker.io/somshubhraroy/<appName>:<TagVersion>`
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+## <u>Kubernetes</u>
+
+### Steps to Deploy and Access the Kubernetes Dashboard ->
+#### Step 1: To add the kubernetes-dashboard repository (Run the below command) -
+`helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/`
+
+#### Step 2: To Deploy a Helm Release named "kubernetes-dashboard" using the kubernetes-dashboard chart (Run the below command) -
+`helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace --namespace kubernetes-dashboard`
+
+#### Step 3: To access the Kubernetes Dashboard UI (Run the below command)->
+`kubectl -n kubernetes-dashboard port-forward svc/kubernetes-dashboard-kong-proxy 8443:443`
+
+### <u>Accessing the Dashboard UI</u> -
+### Steps to create a sample user ->
+To protect the cluster data, Dashboard deploys with a minimal RBAC configuration by default. Currently, Dashboard only supports logging in with a Bearer Token.  
+To create a token follow the below steps on creating a sample user - (Link - https://github.com/kubernetes/dashboard/blob/master/docs/user/access-control/creating-sample-user.md)
+
+(For each of the following snippets for ServiceAccount and ClusterRoleBinding, copy them to new manifest files like 'dashboard-adminuser.yaml')
+
+#### Step 1: To create a ServiceAccount named "admin-user" in namespace kubernetes-dashboard (Paste the below code in dashboard-adminuser.yaml file) -
+<pre>
+apiVersion: v1 
+kind: ServiceAccount
+metadata:
+  name: admin-user
+  namespace: kubernetes-dashboard
+</pre>
+##### Execute `kubectl apply -f dashboard-adminuser.yaml` to create the service account.
+
+#### Step 2: To create a ClusterRoleBinding named "admin-user" (Paste the below code in dashboard-rolebinding.yaml file) -
+<pre>
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: admin-user
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: admin-user
+  namespace: kubernetes-dashboard
+</pre>
+##### Execute `kubectl apply -f dashboard-rolebinding.yaml` to create the ClusterRoleBinding.
+
+#### Step 3 : To get a Bearer Token (temporary) for ServiceAccount to login (Run the below command) -
+`kubectl -n kubernetes-dashboard create token admin-user`
+
+#### Step 4 (a) : To get a long-lived Bearer Token for ServiceAccount to login (Paste the below code in admin-user-secret.yaml file) -
+<pre>
+apiVersion: v1
+kind: Secret
+metadata:
+  name: admin-user
+  namespace: kubernetes-dashboard
+  annotations:
+    kubernetes.io/service-account.name: "admin-user"   
+type: kubernetes.io/service-account-token 
+</pre>
+##### Execute `kubectl apply -f admin-user-secret.yaml` to create the Secret file.
+
+#### Step 4 (b) : To get the token which is saved in the Secret file (Run the below command) -
+`kubectl get secret admin-user -n kubernetes-dashboard -o jsonpath="{.data.token}" | base64 -d`
+
+### To create or update the resource in the Kubernetes cluster from the YAML file (Run the below command) -
+`kubectl apply -f <FileName>.yaml`  
+(Example - kubectl apply -f configserver.yaml, kubectl apply -f configmaps.yaml)
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------
+## <u>Helm</u>
+
+### Website Link for Helm - https://helm.sh/
+### To Install Helm in Windows RUn the below command (Link - https://helm.sh/docs/intro/install/) ->
+#### From Chocolatey (Windows) (In Administrator mode) - `choco install kubernetes-helm`
+#### To check the version of Helm (Run the command) - `helm version`
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 ## <u>Apache Kafka</u>
@@ -176,4 +254,4 @@ for help: Unauthorized for registry-1.docker.io/library/eclipse-temurin: 401 Una
 
 --------------------------------------------------------------------------------------------------------------------------------------
 
-283 lecture videos as of 07/03/2025 and 17/04/2025
+283 lecture videos as of 07/03/2025, 17/04/2025 and 24/05/2025
